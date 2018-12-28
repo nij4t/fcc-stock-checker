@@ -19,13 +19,13 @@ module.exports = function(app) {
   const stockHandler = new StockHandler();
 
   app.route("/api/stock-prices").get(function(req, res) {
-    const result = { stockData: {} };
-
-    if (req.query.like) result.stockData = { likes: 1 }
-
-    stockHandler.getStockData(req.query.stock).then(data => {
-      result.stockData = Object.assign(result.stockData, data);
-      res.json(result);
-    });
+    stockHandler
+      .getStockData(req.query.stock)
+      .then(data => {
+        res.json({ stockData: data });
+      })
+      .catch(err => {
+        res.json(err);
+      });
   });
 };

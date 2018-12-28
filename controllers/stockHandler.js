@@ -1,9 +1,9 @@
 const quote = require("stock-quote");
 
 function StockHandler() {
-  this.getStockData = requset => {
-    if (typeof requset === "string") {
-      return _getSingleStock(requset.toUpperCase());
+  this.getStockData = request => {
+    if (typeof request === "string") {
+      return _getSingleStock(request.toUpperCase());
     } else return _getMultipleStocks(request);
   };
 
@@ -17,15 +17,15 @@ function StockHandler() {
   };
 
   _getMultipleStocks = symbols => {
-    return quote
-      .getQuote(...symbols.map(_ => _.toUpperCase()))
-      .then(data =>
-        data.map(_ => {
-          console.log(_)
-          return { stock: _.symbol, price: _.currentPrice };
+    const stackOfStocks = symbols.map(stock =>
+      quote
+        .getQuote(stock.toUpperCase())
+        .then(stock => {
+          return { stock: stock.symbol, price: stock.currentPrice };
         })
-      )
-      .catch(err => err);
+        .catch(err => err)
+    );
+    return Promise.all(stackOfStocks);
   };
 }
 

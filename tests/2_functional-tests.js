@@ -29,19 +29,19 @@ suite("Functional Tests", function() {
         });
     });
 
-    test('1 stock with like', function(done) {
-      chai.request(server)
-      .get('/api/stock-prices')
-      .query({ stock: 'msft', like: true })
-      .end(function(err, res){
-        assert.equal(res.status, 200)
-        assert.property(res.body, 'stockData')
-        assert.equal(res.body.stockData.stock, 'MSFT')
-        assert.isNumber(res.body.stockData.price)
-        assert.equal(res.body.stockData.likes, 1)
-        done();
-      });
-    });
+    // test('1 stock with like', function(done) {
+    //   chai.request(server)
+    //   .get('/api/stock-prices')
+    //   .query({ stock: 'msft', like: true })
+    //   .end(function(err, res){
+    //     assert.equal(res.status, 200)
+    //     assert.property(res.body, 'stockData')
+    //     assert.equal(res.body.stockData.stock, 'MSFT')
+    //     assert.isNumber(res.body.stockData.price)
+    //     assert.equal(res.body.stockData.likes, 1)
+    //     done();
+    //   });
+    // });
 
     // test('1 stock with like again (ensure likes arent double counted)', function(done) {
     //   done();
@@ -56,7 +56,9 @@ suite("Functional Tests", function() {
         assert.property(res.body, 'stockData')
         assert.isArray(res.body.stockData)
         assert.equal(res.body.stockData[0].stock, 'GOOGL')
+        assert.equal(res.body.stockData[1].stock, 'MSFT')
         assert.isNumber(res.body.stockData[0].price)
+        assert.isNumber(res.body.stockData[1].price)
         done();
       });
     });
